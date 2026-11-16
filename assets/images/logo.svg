@@ -1,0 +1,11 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Left Brain Hemisphere -->
+    <path d="M76 42C76 28 62 20 50 24C42 27 36 34 36 44C24 46 16 56 20 68C14 78 20 92 32 96C34 108 48 116 60 110C68 106 76 98 76 88V42Z" fill="#7C3AED" />
+
+    <!-- Right Brain Hemisphere -->
+    <path d="M84 42C84 28 98 20 110 24C118 27 124 34 124 44C136 46 144 56 140 68C146 78 140 92 128 96C126 108 112 116 100 110C92 106 84 98 84 88V42Z" fill="#7C3AED" />
+
+    <!-- Gold Coin Overlap -->
+    <circle cx="118" cy="102" r="24" fill="#F59E0B" />
+    <circle cx="118" cy="102" r="18" fill="#D97706" fill-opacity="0.6" />
+</svg>
