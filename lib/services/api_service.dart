@@ -33,14 +33,14 @@ class ApiService {
     return [];
   }
 
-  // 2. FETCH FLASHCARDS
+  // 2. FETCH FLASHCARDS FOR SPECIFIC DECK ID
   Future<List<Flashcard>> fetchFlashcards(int deckId) async {
     final prefs = await SharedPreferences.getInstance();
     final cacheKey = 'offline_cards_$deckId';
 
     try {
       final response = await http.get(Uri.parse('$apiUrl?action=getFlashcards&deckId=$deckId'))
-          .timeout(const Duration(seconds: 3)); // Fast timeout!
+          .timeout(const Duration(seconds: 10)); // CHANGED FROM 3 TO 10 SECONDS!
 
       if (response.statusCode == 200 || response.statusCode == 302) {
         prefs.setString(cacheKey, response.body);
@@ -56,9 +56,9 @@ class ApiService {
       final List data = json.decode(cachedData);
       return data.map((json) => Flashcard.fromMap(json)).toList();
     }
+
     return [];
   }
-
   // 3. MODIFY FLASHCARDS (WITH OFFLINE PHANTOM CACHING)
   Future<bool> modifyFlashcard(Map<String, dynamic> data) async {
     try {

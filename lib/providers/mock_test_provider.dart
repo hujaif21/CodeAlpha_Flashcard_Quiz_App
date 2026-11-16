@@ -44,10 +44,11 @@ class MockTestProvider extends ChangeNotifier {
     }
 
     // 2. BACKGROUND SYNC: Fetch fresh data from Google Sheets
+    // 2. BACKGROUND SYNC: Fetch fresh data from Google Sheets
     try {
-      // ADDED THE 3 SECOND TIMEOUT HERE!
+      // CHANGED FROM 3 TO 10 SECONDS!
       final response = await http.get(Uri.parse('$_scriptUrl?action=getMockTest'))
-          .timeout(const Duration(seconds: 3));
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         await prefs.setString('mock_test_cache', response.body);
@@ -57,7 +58,6 @@ class MockTestProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("App is offline. Using cached Mock Test data.");
     }
-
     _isLoading = false;
     notifyListeners();
   }
