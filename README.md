@@ -1,26 +1,117 @@
-🧠 BrainBountyA Gamified, Offline-First, Community-Driven Flashcard & Quiz ArenaBrainBounty transforms passive studying into an interactive, learn-to-earn experience. Built natively with Flutter and powered by a serverless Google Apps Script + Google Sheets backend, it crowdsources study decks globally while staying 100% playable offline.📲 Download Android APK • 🐛 Report Bug • ✨ Request Feature🌟 Why BrainBounty?Most flashcard apps trap study material on a single device. BrainBounty was engineered to solve that by combining a real-time global community database with resilient offline-first caching and mobile-game progression mechanics.🌍 One Question, Global ImpactCrowdsourced Knowledge Base: Create custom study decks and add, edit, or delete flashcards on the fly.Real-Time Global Sync: Every question or deck added by a user syncs directly to the central Google Sheets cloud database and immediately appears in every other user's app worldwide.Instant Practice Loop: Newly contributed cards automatically feed into active study and quiz sessions.⚡ Offline-First & Phantom CachingSmart Local Persistence: Decks, flashcards, mock exam questions, and leaderboard rankings are cached locally via SharedPreferences.10-Second Fast-Fail Strategy: Gracefully handles serverless cold-start latency while falling back seamlessly to local cache when offline.Offline Phantom Caching: Adding a flashcard in Airplane Mode injects the card directly into the local cache with a temporary ID so the UI updates instantaneously without breaking.🎮 Gamified Economy & The VaultStarter Bonus & Streaks: Fresh installs start with 40 Bounty Coins and track consecutive daily study sessions (lastActiveDate) with automated streak counters.The Vault (Inventory System): Spend earned coins to unlock exclusive DiceBear SVG Avatars (Mythic & Epic tiers) and Flex Titles. Unlocked items are saved to a persistent local inventory and can be re-equipped anytime for free.Tactile Haptics: Configurable haptic feedback reinforces card flips, answer selections, and Vault unlocks.🏆 Arena, Mock Placement & Live LeaderboardFast-Lane Tournament Quizzes: 20-second timed blitz rounds with streak multipliers up to x3 coins.Mock Placement Exams: Full 30-minute (1800s) simulated placement tests featuring question navigation, flagging, and competitive +4 / -1 marking.Global Weekly Leaderboard: Each install generates a unique globalUserId (USER_<timestamp>) so players can customize their Gamer Tag and compete globally.🎨 Visual Identity & UI SystemBrainBounty pairs editorial serif display typography with a clean, low-cognitive-load Soft Lavender & Warm Cream palette (#F8F6FC → #FFFDF9), accented by Electric Royal Purple (#7C3AED) and Bounty Gold (#F59E0B).📄 For full color tokens, typography hierarchy, and component specs, see theme.md.🛠️ Tech Stack & ArchitectureLayerTechnologyRoleFrontend UIFlutter (Dart)Cross-platform mobile interface, custom animations, and hapticsState ManagementProvider (ChangeNotifier)Reactive state via AppProvider and MockTestProviderServerless BackendGoogle Apps Script + SheetsCloud REST API (GET/POST) for decks, cards, mock tests, and scoresLocal StorageSharedPreferencesOffline caching, user profile, streaks, and Vault inventoryNetworkinghttpAsynchronous API communication with timeout & fallback handlingDynamic AvatarsDiceBear HTTP APIOn-demand SVG character generation📂 Project StructureCodeAlpha_Flashcard_Quiz_App/
-├── android/
-│   └── app/src/main/AndroidManifest.xml   # Configured with INTERNET permission
-├── lib/
-│   ├── models/
-│   │   ├── deck.dart                      # Study deck data model
-│   │   ├── flashcard.dart                 # Question/Answer card model
-│   │   └── mock_question.dart             # Timed mock placement exam model
-│   ├── providers/
-│   │   ├── app_provider.dart              # Identity, streaks, Vault inventory & CRUD state
-│   │   └── mock_test_provider.dart        # 30-min exam timer, +4/-1 scoring & cloud sync
-│   ├── services/
-│   │   └── api_service.dart               # REST client, 10s timeouts & phantom caching
-│   ├── screens/                           # Decks, Study, Arena, Mock Exam, Vault & Profile UI
-│   └── main.dart                          # App entry point & Provider setup
-├── pubspec.yaml                           # Project dependencies (provider, http, shared_preferences, etc.)
-└── README.md
-📲 Download & Test on AndroidYou can install and test the compiled release APK directly on any Android device:👉 Download BrainBounty APK (Google Drive)Note on Google Play Protect: Because this is a direct beta APK distributed outside the Google Play Store, Android may show a standard Play Protect verification prompt during installation. Simply tap "More details" → "Install anyway" to install and launch the app.💻 Local Setup & Build GuideWant to run or modify the source code locally? Follow these steps:Clone the repositorygit clone https://github.com/hujaif21/CodeAlpha_Flashcard_Quiz_App.git
-cd CodeAlpha_Flashcard_Quiz_App
-Install Flutter packagesflutter pub get
-Run in debug modeflutter run
-Build a Release APK
-Ensure <uses-permission android:name="android.permission.INTERNET" /> is declared inside android/app/src/main/AndroidManifest.xml, then run:flutter clean
-flutter pub get
-flutter build apk --release
-The release binary will be output to build/app/outputs/flutter-apk/app-release.apk.👨‍💻 AuthorHujaif BelimApp Development Intern @ CodeAlpha (Task 1)GitHub: @hujaif21
+# 🧠 BrainBounty
+
+### A Gamified, Cloud-Synced, Community-Driven Flashcard & Quiz Arena
+
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+[![Backend](https://img.shields.io/badge/Backend-Google_Apps_Script-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://developers.google.com/apps-script)
+[![CodeAlpha](https://img.shields.io/badge/Internship-CodeAlpha_Task_1-7C3AED?style=for-the-badge)](https://github.com/hujaif21/CodeAlpha_Flashcard_Quiz_App)
+
+**BrainBounty** transforms passive studying into an interactive, learn-to-earn experience. Built natively with **Flutter** and powered by a serverless **Google Apps Script + Google Sheets** backend, it crowdsources study decks globally in real time.
+
+[📲 Download Android APK](https://drive.google.com/file/d/1To7gh4ja9JynfGbC4Q4octXkZO4xKaGP/view?usp=drive_link) • [🐛 Report Bug](https://github.com/hujaif21/CodeAlpha_Flashcard_Quiz_App/issues) • [✨ Request Feature](https://github.com/hujaif21/CodeAlpha_Flashcard_Quiz_App/issues)
+
+---
+
+## 🌟 Why BrainBounty?
+
+Most flashcard apps trap study material on a single device. **BrainBounty** was engineered to solve that by combining a real-time global community database with smart local caching and mobile-game progression mechanics.
+
+### 🌍 One Question, Global Impact
+* **Crowdsourced Knowledge Base:** Create custom study decks and add, edit, or delete flashcards on the fly.
+* **Real-Time Global Sync:** Every question or deck added by a user syncs directly to the central Google Sheets cloud database and immediately appears in every other user's app worldwide.
+* **Instant Practice Loop:** Newly contributed cards automatically feed into active study and quiz sessions.
+
+### ⚡ Smart Caching & Smooth Performance
+* **Instant Local Caching:** Decks, flashcards, mock exam questions, and leaderboard rankings are cached locally via `SharedPreferences` for faster load times and reduced network calls.
+* **10-Second Timeout Resilience:** Gracefully handles serverless cold-start latency from Google Apps Script so the UI stays smooth and responsive.
+* **Persistent Profile & State:** User coins, daily streaks, and unlocked Vault items are saved locally on the device so your progress stays intact across sessions.
+
+### 🎮 Gamified Economy & The Vault
+* **Starter Bonus & Streaks:** Fresh installs start with **40 Bounty Coins** and track consecutive daily study sessions (`lastActiveDate`) with automated streak counters.
+* **The Vault (Inventory System):** Spend earned coins to unlock exclusive **DiceBear SVG Avatars** (*Mythic* & *Epic* tiers) and **Flex Titles**. Unlocked items are saved to a persistent local inventory and can be re-equipped anytime for free.
+* **Tactile Haptics:** Configurable haptic feedback reinforces card flips, answer selections, and Vault unlocks.
+
+### 🏆 Arena, Mock Placement & Live Leaderboard
+* **Fast-Lane Tournament Quizzes:** 20-second timed blitz rounds with streak multipliers up to **x3 coins**.
+* **Mock Placement Exams:** Full 30-minute (`1800s`) simulated placement tests featuring question navigation, flagging, and competitive `+4 / -1` marking.
+* **Global Weekly Leaderboard:** Each install generates a unique `globalUserId` (`USER_<timestamp>`) so players can customize their Gamer Tag and compete globally.
+
+---
+
+## 🎨 Visual Identity & UI System
+
+BrainBounty pairs editorial serif display typography with a clean, low-cognitive-load **Soft Lavender & Warm Cream** palette (`#F8F6FC` → `#FFFDF9`), accented by **Electric Royal Purple** (`#7C3AED`) and **Bounty Gold** (`#F59E0B`).
+
+> 📄 For full color tokens, typography hierarchy, and component specs, see [`theme.md`](./theme.md).
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+| Layer | Technology | Role |
+| :--- | :--- | :--- |
+| **Frontend UI** | Flutter (Dart) | Cross-platform mobile interface, animations & SVG avatar rendering |
+| **State Management** | `Provider` (`ChangeNotifier`) | Reactive state updates across `AppProvider` & `MockTestProvider` |
+| **Cloud Backend** | Google Apps Script | Serverless REST API (`doGet` / `doPost` endpoints) |
+| **Database** | Google Sheets | Cloud storage for Decks, Flashcards, Mock Questions & Leaderboard |
+| **Local Storage** | `SharedPreferences` | Performance caching, user profile persistence, streaks & Vault inventory |
+
+---
+
+## 📂 Project Structure
+
+```text
+lib/
+├── models/
+│   ├── deck.dart               # Study deck data model
+│   ├── flashcard.dart          # Flashcard Q&A model
+│   └── mock_question.dart      # Placement exam question & state model
+├── providers/
+│   ├── app_provider.dart       # Core state, coins, streaks, Vault & sync logic
+│   └── mock_test_provider.dart # 30-min exam timer, scoring & submission
+├── services/
+│   └── api_service.dart        # HTTP client, 10s timeouts & local caching
+├── screens/                    # Decks, Study Flip, Arena, Mock Exam, Vault & Profile
+└── main.dart                   # App entry point & theme configuration
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+* [Flutter SDK](https://docs.flutter.dev/get-started/install) (`>=3.0.0`)
+* Android Studio / VS Code with Android SDK configured
+
+### Installation & Build
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/hujaif21/CodeAlpha_Flashcard_Quiz_App.git
+   cd CodeAlpha_Flashcard_Quiz_App
+   ```
+
+2. **Install dependencies**
+   ```bash
+   flutter pub get
+   ```
+
+3. **Run in debug mode**
+   ```bash
+   flutter run
+   ```
+
+4. **Build release APK**
+   ```bash
+   flutter build apk --release
+   ```
+   The compiled APK will be generated at `build/app/outputs/flutter-apk/app-release.apk`.
+
+---
+
+## 👨‍💻 Author
+
+**Hujaif Belim**  
+App Development Intern @ **CodeAlpha**  
+GitHub: [@hujaif21](https://github.com/hujaif21)
