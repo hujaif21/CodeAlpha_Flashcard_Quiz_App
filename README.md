@@ -1,17 +1,26 @@
-# brainbounty
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🧠 BrainBountyA Gamified, Offline-First, Community-Driven Flashcard & Quiz ArenaBrainBounty transforms passive studying into an interactive, learn-to-earn experience. Built natively with Flutter and powered by a serverless Google Apps Script + Google Sheets backend, it crowdsources study decks globally while staying 100% playable offline.📲 Download Android APK • 🐛 Report Bug • ✨ Request Feature🌟 Why BrainBounty?Most flashcard apps trap study material on a single device. BrainBounty was engineered to solve that by combining a real-time global community database with resilient offline-first caching and mobile-game progression mechanics.🌍 One Question, Global ImpactCrowdsourced Knowledge Base: Create custom study decks and add, edit, or delete flashcards on the fly.Real-Time Global Sync: Every question or deck added by a user syncs directly to the central Google Sheets cloud database and immediately appears in every other user's app worldwide.Instant Practice Loop: Newly contributed cards automatically feed into active study and quiz sessions.⚡ Offline-First & Phantom CachingSmart Local Persistence: Decks, flashcards, mock exam questions, and leaderboard rankings are cached locally via SharedPreferences.10-Second Fast-Fail Strategy: Gracefully handles serverless cold-start latency while falling back seamlessly to local cache when offline.Offline Phantom Caching: Adding a flashcard in Airplane Mode injects the card directly into the local cache with a temporary ID so the UI updates instantaneously without breaking.🎮 Gamified Economy & The VaultStarter Bonus & Streaks: Fresh installs start with 40 Bounty Coins and track consecutive daily study sessions (lastActiveDate) with automated streak counters.The Vault (Inventory System): Spend earned coins to unlock exclusive DiceBear SVG Avatars (Mythic & Epic tiers) and Flex Titles. Unlocked items are saved to a persistent local inventory and can be re-equipped anytime for free.Tactile Haptics: Configurable haptic feedback reinforces card flips, answer selections, and Vault unlocks.🏆 Arena, Mock Placement & Live LeaderboardFast-Lane Tournament Quizzes: 20-second timed blitz rounds with streak multipliers up to x3 coins.Mock Placement Exams: Full 30-minute (1800s) simulated placement tests featuring question navigation, flagging, and competitive +4 / -1 marking.Global Weekly Leaderboard: Each install generates a unique globalUserId (USER_<timestamp>) so players can customize their Gamer Tag and compete globally.🎨 Visual Identity & UI SystemBrainBounty pairs editorial serif display typography with a clean, low-cognitive-load Soft Lavender & Warm Cream palette (#F8F6FC → #FFFDF9), accented by Electric Royal Purple (#7C3AED) and Bounty Gold (#F59E0B).📄 For full color tokens, typography hierarchy, and component specs, see theme.md.🛠️ Tech Stack & ArchitectureLayerTechnologyRoleFrontend UIFlutter (Dart)Cross-platform mobile interface, custom animations, and hapticsState ManagementProvider (ChangeNotifier)Reactive state via AppProvider and MockTestProviderServerless BackendGoogle Apps Script + SheetsCloud REST API (GET/POST) for decks, cards, mock tests, and scoresLocal StorageSharedPreferencesOffline caching, user profile, streaks, and Vault inventoryNetworkinghttpAsynchronous API communication with timeout & fallback handlingDynamic AvatarsDiceBear HTTP APIOn-demand SVG character generation📂 Project StructureCodeAlpha_Flashcard_Quiz_App/
+├── android/
+│   └── app/src/main/AndroidManifest.xml   # Configured with INTERNET permission
+├── lib/
+│   ├── models/
+│   │   ├── deck.dart                      # Study deck data model
+│   │   ├── flashcard.dart                 # Question/Answer card model
+│   │   └── mock_question.dart             # Timed mock placement exam model
+│   ├── providers/
+│   │   ├── app_provider.dart              # Identity, streaks, Vault inventory & CRUD state
+│   │   └── mock_test_provider.dart        # 30-min exam timer, +4/-1 scoring & cloud sync
+│   ├── services/
+│   │   └── api_service.dart               # REST client, 10s timeouts & phantom caching
+│   ├── screens/                           # Decks, Study, Arena, Mock Exam, Vault & Profile UI
+│   └── main.dart                          # App entry point & Provider setup
+├── pubspec.yaml                           # Project dependencies (provider, http, shared_preferences, etc.)
+└── README.md
+📲 Download & Test on AndroidYou can install and test the compiled release APK directly on any Android device:👉 Download BrainBounty APK (Google Drive)Note on Google Play Protect: Because this is a direct beta APK distributed outside the Google Play Store, Android may show a standard Play Protect verification prompt during installation. Simply tap "More details" → "Install anyway" to install and launch the app.💻 Local Setup & Build GuideWant to run or modify the source code locally? Follow these steps:Clone the repositorygit clone https://github.com/hujaif21/CodeAlpha_Flashcard_Quiz_App.git
+cd CodeAlpha_Flashcard_Quiz_App
+Install Flutter packagesflutter pub get
+Run in debug modeflutter run
+Build a Release APK
+Ensure <uses-permission android:name="android.permission.INTERNET" /> is declared inside android/app/src/main/AndroidManifest.xml, then run:flutter clean
+flutter pub get
+flutter build apk --release
+The release binary will be output to build/app/outputs/flutter-apk/app-release.apk.👨‍💻 AuthorHujaif BelimApp Development Intern @ CodeAlpha (Task 1)GitHub: @hujaif21
