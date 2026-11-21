@@ -13,6 +13,10 @@
 
 ---
 
+## ⚠️ Installation & Permissions Note
+
+- **Installing the APK:** Since this release APK is distributed outside the Google Play Store, Android may ask you to allow **"Install unknown apps"** for your browser or file manager—tap **Allow** to proceed.
+
 ## 🌟 Why BrainBounty?
 
 Most flashcard apps trap study material on a single device. **BrainBounty** was engineered to solve that by combining a real-time global community database with smart local caching and mobile-game progression mechanics.
